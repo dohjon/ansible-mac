@@ -27,6 +27,11 @@ Validate playbook
 ansible-playbook --syntax-check <file>
 ```
 
+Perform dry run on playbook 
+```sh
+ansible-playbook -C <file>
+```
+
 Check changes to default configuration (ansible.cfg)
 ```sh
 ansible-config dump --only-changed
