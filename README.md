@@ -26,3 +26,8 @@ Validate playbook
 ```sh
 ansible-playbook --syntax-check <file>
 ```
+
+Check changes to default configuration (ansible.cfg)
+```sh
+ansible-config dump --only-changed
+```
