@@ -20,7 +20,13 @@ brew install ansible
 ansible --version
 ```
 
-## 
+## Usage
+Run playbook 
+```sh
+ansible-playbook <file> --ask-become-pass
+```
+
+## Helpers
 
 Validate playbook 
 ```sh
