@@ -17,6 +17,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 [ansible](https://ansible.com)
 ```sh
 brew install ansible
+ansible --version
 ```
 
 ##
