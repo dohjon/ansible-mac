@@ -7,6 +7,11 @@ developer tools
 xcode-select --install
 ```
 
+upgrade pip
+```sh
+python3 -m pip install --upgrade pip
+```
+
 install ansible
 ```sh
 python3 -m pip install --user ansible
