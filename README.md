@@ -20,26 +20,9 @@ brew install ansible
 ansible --version
 ```
 
-##
+## 
 
-developer tools
+Validate playbook 
 ```sh
-xcode-select --install
+ansible-playbook --syntax-check <file>
 ```
-
-upgrade pip
-```sh
-python3 -m pip install --upgrade pip
-```
-
-install ansible
-```sh
-python3 -m pip install --user ansible
-```
-
-Beacuse we
-install ansible
-```sh
-python3 -m pip install --user ansible
-```
-
