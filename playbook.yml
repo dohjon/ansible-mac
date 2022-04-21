@@ -19,11 +19,6 @@
 
   tasks:
 
-    - name: Copy .zprofile to ~/.zprofile
-      copy:
-        src: ./assets/zsh/.zprofile
-        dest: ~/.zprofile
-
     - name: Install brew package(s)
       homebrew:
         update_homebrew: true
@@ -33,10 +28,6 @@
         - git
         - zsh
         - zsh-syntax-highlighting
-        - tree
-        - jq
-        - nvm
-        - tree
 
     - name: Install brew cask(s)
       homebrew_cask:
@@ -46,5 +37,8 @@
       with_items:
         - visual-studio-code
         - google-chrome
-        - slack
-        - spotify
+
+    - name: Copy .zprofile to ~/.zprofile
+      copy:
+        src: ./assets/zsh/.zprofile
+        dest: ~/.zprofile
