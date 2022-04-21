@@ -1,0 +1,44 @@
+---
+- name: Setup development environment
+  hosts: localhost 
+  connection: local
+  become: false
+  gather_facts: no
+  
+  pre_tasks:
+    - name: Check for homebrew executable
+      stat:
+        path: /opt/homebrew/bin/brew
+      register: result
+
+    - name: Install homebrew
+      shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      become_method: sudo
+      when:
+        not result.stat.exists
+
+  tasks:
+    - name: Install brew package(s)
+      homebrew:
+        update_homebrew: true
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - git
+        - zsh
+        - zsh-syntax-highlighting
+        - tree
+        - jq
+        - nvm
+        - tree
+
+    - name: Install brew cask(s)
+      homebrew_cask:
+        update_homebrew: true
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - visual-studio-code
+        - google-chrome
+        - slack
+        - spotify
