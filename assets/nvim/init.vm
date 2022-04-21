@@ -8,16 +8,20 @@ let maplocalleader = ' '
 " PLUGINS
 " ---------------------------
 
-" Specify a directory for plugins.
-call plug#begin('~/.config/nvim/plugged')
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
+" Specify a directory for plugins.
+call plug#begin()
 
 " Batteries 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-" Plug 'junegunn/rainbow_parentheses.vim'
 
 " Edit
 Plug 'tpope/vim-commentary'
@@ -29,7 +33,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
 
-
 " Themes
 Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
@@ -39,9 +42,6 @@ Plug 'itchyny/lightline.vim'
 
 " Navigate and manipulate files in a tree view.
 Plug 'scrooloose/nerdtree'
-
-" Completion Menu
-" Plug 'vim-scripts/AutoComplPop'
 
 " Briefly highlight which text was yanked.
 Plug 'machakann/vim-highlightedyank'
@@ -58,18 +58,10 @@ Plug 'haya14busa/is.vim'
 " Automatically insert or delete brackets, parens, quotes in pair.
 Plug 'jiangmiao/auto-pairs' 
 
-" Linter
-" Formatter
-Plug 'dense-analysis/ale'
-
 " Languages
 Plug 'sheerun/vim-polyglot'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 
 call plug#end()
-
-
 
 " ---------------------------
 " THEME
@@ -289,12 +281,3 @@ nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" :
 
 " Trigger a highlight in the appropriate direction when pressing these keys.
 let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
-
-
-" .............................................................................
-" dense-analysis/ale 
-" .............................................................................
-
-let g:ale_fixers = {
-  \ 'javascript': ['eslint'],
-\}
