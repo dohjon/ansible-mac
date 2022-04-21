@@ -28,6 +28,9 @@
         - git
         - zsh
         - zsh-syntax-highlighting
+        - zsh-autosuggestions
+        - bat
+        - tree
 
     - name: Install brew cask(s)
       homebrew_cask:
@@ -42,3 +45,23 @@
       copy:
         src: ./assets/zsh/.zprofile
         dest: ~/.zprofile
+
+    - name: Copy .zshrc to ~/.zshrc
+      copy:
+        src: ./assets/zsh/.zshrc
+        dest: ~/.zshrc
+
+    - name: Copy .gitconfig
+      copy:
+        src: ./assets/git/.gitconfig
+        dest: ~/.gitconfig
+
+    - name: Copy .gitcommit
+      copy:
+        src: ./assets/git/.gitcommit
+        dest: ~/.gitcommit
+
+    - name: Copy .gitignore_global
+      copy:
+        src: ./assets/git/.gitignore_global
+        dest: ~/.gitignore_global
