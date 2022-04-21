@@ -52,6 +52,12 @@ ansible-playbook <file> --ask-become-pass
 
 ## Helpers
 
+TODO: show example for check and diff flags
+```sh
+--check
+--diff
+```
+
 Validate playbook 
 ```sh
 ansible-playbook --syntax-check <file>
