@@ -32,7 +32,7 @@
       with_items:
         - git
         - zsh
-        - zsh-syntax-highlightning
+        - zsh-syntax-highlighting
         - tree
         - jq
         - nvm
