@@ -1,0 +1,11 @@
+format = "$all"
+
+[line_break]
+disabled = true
+
+[directory]
+truncation_length = 8
+truncation_symbol = "…/"
+
+[nodejs]
+symbol = "🚀 "
