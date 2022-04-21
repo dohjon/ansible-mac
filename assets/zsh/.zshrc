@@ -32,6 +32,15 @@ path=(
 export PATH
 
 #-------------------------------------------------------------------------------
+# ALIAS
+#-------------------------------------------------------------------------------
+alias vim="nvim"
+alias cat="bat"
+alias ls="ls -al"
+alias t="tree"
+alias brewup="brew update; brew upgrade; brew cleanup; brew doctor"
+
+#-------------------------------------------------------------------------------
 # ADVANCED TAB-COMPLETION 
 #-------------------------------------------------------------------------------
 autoload -Uz compinit
@@ -94,3 +103,6 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 #-------------------------------------------------------------------------------
 # https://github.com/Homebrew/homebrew-core/blob/master/Formula/zsh-syntax-highlighting.rb#L30-L35
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# https://github.com/Homebrew/homebrew-core/blob/master/Formula/zsh-autosuggestions.rb#L21-L25
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
