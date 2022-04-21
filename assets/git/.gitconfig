@@ -1,0 +1,16 @@
+[user]
+	name = Jonathan Doherty
+	email = dohjon@users.noreply.github.com
+[core]
+	autocrlf = input
+	editor = code --wait
+	excludesfile = ~/.gitignore_global
+[commit]
+	template = ~/.gitcommit
+[init]
+	defaultBranch = main
+[alias]
+	unstage = rm --cached -r
+	st = status --short
+	br = branch --all --verbose
+	co = checkout -b
