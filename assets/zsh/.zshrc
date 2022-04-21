@@ -1,108 +1,111 @@
----
-- name: Setup development environment
-  hosts: localhost
-  connection: local
-  become: false
-  gather_facts: false
+#-------------------------------------------------------------------------------
+# HISTORY
+#-------------------------------------------------------------------------------
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
 
-  pre_tasks:
-    - name: Check for homebrew executable
-      stat:
-        path: /opt/homebrew/bin/brew
-      register: result
+#-------------------------------------------------------------------------------
+# OPTIONS
+#-------------------------------------------------------------------------------
+setopt AUTO_CD
+setopt GLOBDOTS
 
-    - name: Install homebrew
-      shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      become_method: sudo
-      when:
-        not result.stat.exists
+unsetopt CASE_GLOB
 
-  tasks:
+#-------------------------------------------------------------------------------
+# VARIABLES
+#-------------------------------------------------------------------------------
 
-    - name: Install brew package(s)
-      homebrew:
-        update_homebrew: true
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - git
-        - zsh
-        - zsh-syntax-highlighting
-        - zsh-autosuggestions
-        - bat
-        - tree
-        - tldr
-        - ansible
-        - shellcheck
-        - vim
-        - nvim
-        - starship
+export VISUAL="$(which code)"
+export EDITOR="$VISUAL"
 
-    - name: Install brew cask(s)
-      homebrew_cask:
-        update_homebrew: true
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - visual-studio-code
-        - google-chrome
+typeset -U path
+path=(
+    $path
+)
+export PATH
 
-    - name: Create gitlab directory
-      file:
-        path: ~/projects/gitlab
-        state: directory
-        mode: '0755'
+#-------------------------------------------------------------------------------
+# ALIAS
+#-------------------------------------------------------------------------------
+alias vim="nvim"
+alias cat="bat"
+alias ls="ls -al"
+alias t="tree"
+alias brewup="brew update; brew upgrade; brew cleanup; brew doctor"
 
-    - name: Create github directory
-      file:
-        path: ~/projects/github
-        state: directory
-        mode: '0755'
+#-------------------------------------------------------------------------------
+# ADVANCED TAB-COMPLETION 
+#-------------------------------------------------------------------------------
+autoload -Uz compinit
 
-    - name: Copy .zprofile to ~/.zprofile
-      copy:
-        src: ./assets/zsh/.zprofile
-        dest: ~/.zprofile
+# <TAB> matches both X and x
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-    - name: Copy .zshrc to ~/.zshrc
-      copy:
-        src: ./assets/zsh/.zshrc
-        dest: ~/.zshrc
+zstyle ':completion:*' menu select
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'no matches for: %d'
+zstyle ':completion:*' group-name ''
 
-    - name: Copy .gitconfig
-      copy:
-        src: ./assets/git/.gitconfig
-        dest: ~/.gitconfig
+compinit
 
-    - name: Copy .gitcommit
-      copy:
-        src: ./assets/git/.gitcommit
-        dest: ~/.gitcommit
+#-------------------------------------------------------------------------------
+# VIM
+#-------------------------------------------------------------------------------
 
-    - name: Copy .gitignore_global
-      copy:
-        src: ./assets/git/.gitignore_global
-        dest: ~/.gitignore_global
+# vi mode
+bindkey -v
 
-    - name: Copy init.vim
-      copy:
-        src: ./assets/nvim/init.vim
-        dest: ~/init.vim
+# ci ' " `    
+autoload -Uz select-quoted
+zle -N select-quoted
+for m in visual viopp; do
+    for c in {a,i}{\',\",\`}; do
+        bindkey -M $m $c select-quoted
+    done
+done
 
-    - name: Create starship directory
-      file:
-        path: ~/.config/starship
-        state: directory
-        mode: '0755'
+# ci ( [ { <
+autoload -Uz select-bracketed
+zle -N select-bracketed
+for m in visual viopp; do
+    for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+        bindkey -M $m $c select-bracketed
+    done
+done
 
-    - name: Copy starship.toml
-      copy:
-        src: ./assets/starship/starship.toml
-        dest: ~/.config/starship/starship.toml
+# surrounds
+autoload -Uz surround
+zle -N delete-surround surround
+zle -N add-surround surround
+zle -N change-surround surround
+bindkey -M vicmd 'cs' change-surround
+bindkey -M vicmd 'ds' delete-surround
+bindkey -M vicmd 'ys' add-surround
+bindkey -M visual 'S' add-surround
 
-    - osx_defaults:
-        domain: /Library/Preferences/com.apple.SoftwareUpdate
-        key: AutomaticCheckEnabled
-        type: int
-        value: 1
-      become_method: sudo
+# vi navigation keys in tab completion menu
+zmodload zsh/complist
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+#-------------------------------------------------------------------------------
+# SHOULD BE LOADED LAST
+#-------------------------------------------------------------------------------
+# https://github.com/starship/starship#step-2-setup-your-shell-to-use-starship
+eval "$(starship init zsh)"
+
+# https://github.com/Homebrew/homebrew-core/blob/master/Formula/zsh-syntax-highlighting.rb#L30-L35
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# https://github.com/Homebrew/homebrew-core/blob/master/Formula/zsh-autosuggestions.rb#L21-L25
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
