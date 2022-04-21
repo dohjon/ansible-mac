@@ -3,8 +3,8 @@
   hosts: localhost 
   connection: local
   become: false
-  gather_facts: no
-  
+  gather_facts: false
+
   pre_tasks:
     - name: Check for homebrew executable
       stat:
@@ -18,6 +18,12 @@
         not result.stat.exists
 
   tasks:
+
+    - name: Copy .zprofile to ~/.zprofile
+      copy:
+        src: ./assets/zsh/.zprofile
+        dest: ~/.zprofile
+
     - name: Install brew package(s)
       homebrew:
         update_homebrew: true
@@ -26,12 +32,11 @@
       with_items:
         - git
         - zsh
-        - zsh-syntax-highlighting
+        - zsh-syntax-highlightning
         - tree
         - jq
         - nvm
         - tree
-        - bat
 
     - name: Install brew cask(s)
       homebrew_cask:
