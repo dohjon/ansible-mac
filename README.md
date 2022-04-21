@@ -19,6 +19,11 @@ install ansible
 python3 -m pip install --user ansible
 ```
 
+path to ansible (optionaly add to path)
+```sh
+$(python3 -m site --user-base)/bin/ansible
+```
+
 ## homebrew setup
 
 developer tools
