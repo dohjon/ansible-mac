@@ -1,6 +1,6 @@
 ---
 - name: Setup development environment
-  hosts: localhost 
+  hosts: localhost
   connection: local
   become: false
   gather_facts: false
@@ -31,6 +31,12 @@
         - zsh-autosuggestions
         - bat
         - tree
+        - tldr
+        - ansible
+        - shellcheck
+        - vim
+        - nvim
+        - starship
 
     - name: Install brew cask(s)
       homebrew_cask:
@@ -40,6 +46,18 @@
       with_items:
         - visual-studio-code
         - google-chrome
+
+    - name: Create gitlab directory
+      file:
+        path: ~/projects/gitlab
+        state: directory
+        mode: '0755'
+
+    - name: Create github directory
+      file:
+        path: ~/projects/github
+        state: directory
+        mode: '0755'
 
     - name: Copy .zprofile to ~/.zprofile
       copy:
@@ -65,3 +83,26 @@
       copy:
         src: ./assets/git/.gitignore_global
         dest: ~/.gitignore_global
+
+    - name: Copy init.vim
+      copy:
+        src: ./assets/nvim/init.vim
+        dest: ~/init.vim
+
+    - name: Create starship directory
+      file:
+        path: ~/.config/starship
+        state: directory
+        mode: '0755'
+
+    - name: Copy starship.toml
+      copy:
+        src: ./assets/starship/starship.toml
+        dest: ~/.config/starship/starship.toml
+
+    - osx_defaults:
+        domain: /Library/Preferences/com.apple.SoftwareUpdate
+        key: AutomaticCheckEnabled
+        type: int
+        value: 1
+      become_method: sudo
