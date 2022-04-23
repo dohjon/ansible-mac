@@ -1,10 +1,18 @@
 ---
-- name: Setup macos environment
-  hosts: localhost
-  connection: local
-  become: false
 
-  pre_tasks:
+- name: Verify we are in correct working directory when running playbook
+  hosts: localhost
+
+  tasks:
+    - name: Ensure we are running playbook.yml from ~/dotfiles directory
+      fail:
+        msg: "Current working directory is: {{ lookup('env', 'PWD') }} (make sure you are running the playbook.yml from {{ lookup('env', 'HOME') }}/dotfiles)"
+      when: lookup('env', 'PWD') != lookup('env', 'HOME') + '/dotfiles'
+
+- name: Setup homebrew
+  hosts: localhost
+
+  tasks:
     - name: Check for homebrew executable
       stat:
         path: /opt/homebrew/bin/brew
@@ -12,12 +20,14 @@
 
     - name: Ensure homebrew is installed
       shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      become_method: sudo
       when:
         not result.stat.exists
+      become_method: sudo
+
+- name: Install homebrew taps
+  hosts: localhost
 
   tasks:
-
     - name: Ensure homebrew taps are installed
       homebrew_tap:
         name:  "{{ item }}"
@@ -25,6 +35,10 @@
       with_items:
         - homebrew/cask-fonts
 
+- name: Install homebrew packages
+  hosts: localhost
+
+  tasks:
     - name: Ensure homebrew packages are installed
       homebrew:
         update_homebrew: true
@@ -45,6 +59,10 @@
         - starship
         - mas
 
+- name: Install homebrew casks
+  hosts: localhost
+
+  tasks:
     - name: Ensure homebrew casks are installed
       homebrew_cask:
         update_homebrew: true
@@ -57,6 +75,10 @@
         - spotify
         - font-cascadia-code-pl
 
+- name: Install store applications
+  hosts: localhost
+
+  tasks:
     - name: Ensure app store applications are installed
       mas:
         id:
@@ -69,6 +91,10 @@
         PATH: /opt/homebrew/bin:{{ ansible_facts.env.PATH }}
       ignore_errors: true
 
+- name: Setup projects folder
+  hosts: localhost
+
+  tasks:
     - name: Ensure ~/projects/gitlab directory exists
       file:
         path: ~/projects/gitlab
@@ -81,6 +107,10 @@
         state: directory
         mode: '0755'
 
+- name: Setup zsh
+  hosts: localhost
+
+  tasks:
     - name: Ensure .zprofile copied to ~/.zprofile
       copy:
         src: ./assets/zsh/.zprofile
@@ -91,12 +121,16 @@
         src: ./assets/zsh/.zshrc
         dest: ~/.zshrc
 
+- name: Setup git
+  hosts: localhost
+
+  tasks:
     - name: Ensure .gitconfig copied to ~/.gitconfig
       copy:
         src: ./assets/git/.gitconfig
         dest: ~/.gitconfig
 
-    - name:  Ensure .gitcommit copied to ~/.gitcommit
+    - name: Ensure .gitcommit copied to ~/.gitcommit
       copy:
         src: ./assets/git/.gitcommit
         dest: ~/.gitcommit
@@ -106,11 +140,19 @@
         src: ./assets/git/.gitignore_global
         dest: ~/.gitignore_global
 
+- name: Setup nvim
+  hosts: localhost
+
+  tasks:
     - name: Ensure init.vim copied to ~/init.vim
       copy:
         src: ./assets/nvim/init.vim
         dest: ~/init.vim
 
+- name: Setup starship
+  hosts: localhost
+
+  tasks:
     - name: Ensure ~/.config/starship directory exists
       file:
         path: ~/.config/starship
@@ -122,13 +164,10 @@
         src: ./assets/starship/starship.toml
         dest: ~/.config/starship/starship.toml
 
-    - name: Ensure dock is set to hide and show
-      osx_defaults:
-        domain: com.apple.dock
-        key: autohide
-        type: bool
-        value: true
+- name: Setup iterm2
+  hosts: localhost
 
+  tasks:
     - name: Ensure iterm2 custom preference folder points to ~/dotfiles/assets/iterm2
       osx_defaults:
         domain: com.googlecode.iterm2
@@ -143,11 +182,22 @@
         type: int
         value: 2
 
-    - name: Ensure applications are removed from dock
+- name: Setup dock
+  hosts: localhost
+
+  tasks:
+    - name: Ensure dock is set to hide and show
+      osx_defaults:
+        domain: com.apple.dock
+        key: autohide
+        type: bool
+        value: true
+
+    - name: Ensure unwanted applications are removed from dock
       shell: defaults delete com.apple.dock persistent-apps
       ignore_errors: true
 
-    - name: Ensure applications are added to dock
+    - name: Ensure wanted applications are added to dock
       shell: >-
         defaults write com.apple.dock persistent-apps -array-add\
           "<dict>\
@@ -173,6 +223,5 @@
       notify:
         - Restart Dock
 
-  handlers:
-    - name: Restart Dock
+    - name: Ensure dock is restarted
       shell: killall Dock
