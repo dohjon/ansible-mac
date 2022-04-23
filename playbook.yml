@@ -1,5 +1,5 @@
 ---
-- name: Setup development environment
+- name: Setup macos environment
   hosts: localhost
   connection: local
   become: false
@@ -11,7 +11,7 @@
         path: /opt/homebrew/bin/brew
       register: result
 
-    - name: Install homebrew
+    - name: Ensure homebrew is installed
       shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       become_method: sudo
       when:
@@ -19,7 +19,14 @@
 
   tasks:
 
-    - name: Install brew package(s)
+    - name: Ensure homebrew taps are installed
+      homebrew_tap:
+        name:  "{{ item }}"
+        state: present
+      with_items:
+        - homebrew/cask-fonts
+
+    - name: Ensure homebrew packages are installed
       homebrew:
         update_homebrew: true
         name: "{{ item }}"
@@ -37,8 +44,12 @@
         - vim
         - nvim
         - starship
+        - font-cascadia-code-pl
+        - mas
+      # font-cascadia-code-pl install is not idempotent
+      ignore_errors: true
 
-    - name: Install brew cask(s)
+    - name: Ensure homebrew casks are installed
       homebrew_cask:
         update_homebrew: true
         name: "{{ item }}"
@@ -46,63 +57,124 @@
       with_items:
         - visual-studio-code
         - google-chrome
+        - iterm2
+        - spotify
+      ignore_errors: true
 
-    - name: Create gitlab directory
+    - name: Ensure app store applications are installed
+      mas:
+        id:
+          - 904280696 # Things
+          - 413857545 # 1Password 7
+          #- 497799835 # Xcode
+        state: present
+        upgrade_all: yes
+      ignore_errors: true
+
+    - name: Ensure ~/projects/gitlab directory exists
       file:
         path: ~/projects/gitlab
         state: directory
         mode: '0755'
 
-    - name: Create github directory
+    - name: Ensure ~/projects/github directory exists
       file:
         path: ~/projects/github
         state: directory
         mode: '0755'
 
-    - name: Copy .zprofile to ~/.zprofile
+    - name: Ensure .zprofile copied to ~/.zprofile
       copy:
         src: ./assets/zsh/.zprofile
         dest: ~/.zprofile
 
-    - name: Copy .zshrc to ~/.zshrc
+    - name: Ensure .zshrc copied to ~/.zshrc
       copy:
         src: ./assets/zsh/.zshrc
         dest: ~/.zshrc
 
-    - name: Copy .gitconfig
+    - name: Ensure .gitconfig copied to ~/.gitconfig
       copy:
         src: ./assets/git/.gitconfig
         dest: ~/.gitconfig
 
-    - name: Copy .gitcommit
+    - name:  Ensure .gitcommit copied to ~/.gitcommit
       copy:
         src: ./assets/git/.gitcommit
         dest: ~/.gitcommit
 
-    - name: Copy .gitignore_global
+    - name: Ensure .gitignore_global copied to ~/.gitignore_global
       copy:
         src: ./assets/git/.gitignore_global
         dest: ~/.gitignore_global
 
-    - name: Copy init.vim
+    - name: Ensure init.vim copied to ~/init.vim
       copy:
         src: ./assets/nvim/init.vim
         dest: ~/init.vim
 
-    - name: Create starship directory
+    - name: Ensure ~/.config/starship directory exists
       file:
         path: ~/.config/starship
         state: directory
         mode: '0755'
 
-    - name: Copy starship.toml
+    - name: Ensure starship.toml copied to ~/.config/starship/starship.toml
       copy:
         src: ./assets/starship/starship.toml
         dest: ~/.config/starship/starship.toml
 
-    - osx_defaults:
-        domain: /Library/Preferences/com.apple.SoftwareUpdate
-        key: AutomaticCheckEnabled
+    - name: Ensure dock is set to hide and show
+      osx_defaults:
+        domain: com.apple.dock
+        key: autohide
+        type: bool
+        value: true
+
+    - name: Ensure iterm2 custom preference folder points to ~/dotfiles/assets/iterm2
+      osx_defaults:
+        domain: com.googlecode.iterm2
+        key: PrefsCustomFolder
+        type: string
+        value: ~/dotfiles/assets/iterm2
+
+    - name: Ensure iterm2 loads preferences from custom folder
+      osx_defaults:
+        domain: com.googlecode.iterm2
+        key: LoadPrefsFromCustomFolder
         type: int
-        value: 1
-      become_method: sudo
+        value: 2
+
+    - name: Ensure applications are removed from dock
+      shell: defaults delete com.apple.dock persistent-apps
+      ignore_errors: true
+
+    - name: Ensure applications are added to dock
+      shell: >-
+        defaults write com.apple.dock persistent-apps -array-add\
+          "<dict>\
+            <key>tile-data</key>\
+            <dict>\
+              <key>file-data</key>\
+              <dict>\
+                <key>_CFURLString</key>\
+                <string>{{ item }}</string>\
+                <key>_CFURLStringType</key>\
+                <integer>15</integer>\
+              </dict>\
+            </dict>\
+          </dict>"
+      with_items:
+        - file:///System/Applications/Mail.app/
+        - file:///Applications/iTerm.app/
+        - file:///Applications/Visual%20Studio%20Code.app/
+        - file:///Applications/Google%20Chrome.app/
+        - file:///Applications/Spotify.app/
+        - file:///Applications/Things3.app/
+        - file:///Applications/1Password%207.app/
+      notify:
+        - Restart Dock
+
+  handlers:
+    - name: Restart Dock
+      shell: killall Dock
