@@ -2,62 +2,16 @@
 
 > macOS Monteray 12.3.1
 
-## python setup
-
-developer tools
-```sh
-xcode-select --install
-```
-
-upgrade pip
-```sh
-python3 -m pip install --upgrade pip
-```
-
-install ansible
-```sh
-python3 -m pip install --user ansible
-```
-
-path to ansible (optionaly add to path)
-```sh
-$(python3 -m site --user-base)/bin/ansible
-```
-
-## homebrew setup
-
-developer tools
-```sh
-xcode-select --install
-```
-
-[homebrew](https://brew.sh/)
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-
-[ansible](https://ansible.com)
-```sh
-brew install ansible
-ansible --version
-```
-
 ## Usage
-Run playbook 
 ```sh
-$(python3 -m site --user-base)/bin/ansible-playbook playbook.yml --ask-become-pass
-#ansible-playbook <file> --ask-become-pass
+cd $HOME
+git clone git@github.com:dohjon/dotfiles.git
+cd dotfiles
+chmod +x install.sh
+./install.sh
 ```
 
 ## Helpers
-
-TODO: show example for check and diff flags
-```sh
---check
---diff
-```
 
 Validate playbook 
 ```sh
@@ -71,12 +25,10 @@ ansible-playbook -C <file>
 
 Check changes to default configuration (ansible.cfg)
 ```sh
-# ansible-config dump
 ansible-config dump --only-changed
 ```
 
-Inventory inspection 
+Inventory overview 
 ```sh
-ansible-inventory --graph
 ansible-inventory --graph --vars
 ```
