@@ -16,6 +16,9 @@
       become_method: sudo
       when:
         not result.stat.exists
+        
+    - name: Ensure homebrew is temporarily added to path for current shell session
+      shell: eval "\$(/opt/homebrew/bin/brew shellenv)"
 
   tasks:
 
@@ -57,7 +60,6 @@
         - iterm2
         - spotify
         - font-cascadia-code-pl
-      ignore_errors: true
 
     - name: Ensure app store applications are installed
       mas:
