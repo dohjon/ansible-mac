@@ -4,11 +4,8 @@
 
 ## Usage
 ```sh
-cd $HOME
-git clone git@github.com:dohjon/dotfiles.git
-cd dotfiles
-chmod +x install.sh
-./install.sh
+git clone git@github.com:dohjon/dotfiles.git $HOME/dotfiles && cd dotfiles
+chmod +x install.sh && ./install.sh
 ```
 
 ## Helpers
