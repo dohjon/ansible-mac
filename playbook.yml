@@ -220,8 +220,6 @@
         - file:///Applications/Spotify.app/
         - file:///Applications/Things3.app/
         - file:///Applications/1Password%207.app/
-      notify:
-        - Restart Dock
 
     - name: Ensure dock is restarted
       shell: killall Dock
