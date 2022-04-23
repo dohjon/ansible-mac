@@ -47,7 +47,7 @@ ansible --version
 ## Usage
 Run playbook 
 ```sh
-$(python3 -m site --user-base)/bin/ansible-playbook playbook.yml
+$(python3 -m site --user-base)/bin/ansible-playbook playbook.yml --ask-become-pass
 #ansible-playbook <file> --ask-become-pass
 ```
 
