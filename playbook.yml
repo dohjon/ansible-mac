@@ -3,7 +3,6 @@
   hosts: localhost
   connection: local
   become: false
-  gather_facts: false
 
   pre_tasks:
     - name: Check for homebrew executable
@@ -12,13 +11,10 @@
       register: result
 
     - name: Ensure homebrew is installed
-      shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       become_method: sudo
       when:
         not result.stat.exists
-        
-    - name: Ensure homebrew is temporarily added to path for current shell session
-      shell: eval "\$(/opt/homebrew/bin/brew shellenv)"
 
   tasks:
 
@@ -69,6 +65,8 @@
           #- 497799835 # Xcode
         state: present
         upgrade_all: yes
+      environment:
+        PATH: /opt/homebrew/bin:{{ ansible_facts.env.PATH }}
       ignore_errors: true
 
     - name: Ensure ~/projects/gitlab directory exists
