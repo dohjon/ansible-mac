@@ -71,5 +71,12 @@ ansible-playbook -C <file>
 
 Check changes to default configuration (ansible.cfg)
 ```sh
+# ansible-config dump
 ansible-config dump --only-changed
+```
+
+Inventory inspection 
+```sh
+ansible-inventory --graph
+ansible-inventory --graph --vars
 ```
