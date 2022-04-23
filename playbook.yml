@@ -9,21 +9,6 @@
         msg: "Current working directory is: {{ lookup('env', 'PWD') }} (make sure you are running the playbook.yml from {{ lookup('env', 'HOME') }}/dotfiles)"
       when: lookup('env', 'PWD') != lookup('env', 'HOME') + '/dotfiles'
 
-- name: Setup homebrew
-  hosts: localhost
-
-  tasks:
-    - name: Check for homebrew executable
-      stat:
-        path: /opt/homebrew/bin/brew
-      register: result
-
-    - name: Ensure homebrew is installed
-      shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      when:
-        not result.stat.exists
-      become_method: sudo
-
 - name: Install homebrew taps
   hosts: localhost
 
