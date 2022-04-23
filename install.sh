@@ -4,8 +4,8 @@ set -e
 
 if [[ $(uname) == "Darwin" ]]; then
 
-    # https://developer.apple.com/library/archive/technotes/tn2339/_index.html
-    if ! command -v xcode-select -p &>/dev/null; then
+    # https://github.com/Homebrew/install/blob/master/install.sh#L293
+    if ! command -v /Library/Developer/CommandLineTools/usr/bin/git &>/dev/null; then
         echo "Installing: xcode command line tools ..."
         xcode-select --install
     fi
