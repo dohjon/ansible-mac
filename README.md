@@ -2,6 +2,10 @@
 
 > macOS Monteray 12.3.1
 
+## Prerequisites
+
+Setup [SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
 ## Usage
 ```sh
 git clone git@github.com:dohjon/dotfiles.git $HOME/dotfiles && cd dotfiles
