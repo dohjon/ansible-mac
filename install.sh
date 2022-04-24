@@ -4,12 +4,6 @@ set -e
 
 if [[ $(uname) == "Darwin" ]]; then
 
-    # https://github.com/Homebrew/install/blob/master/install.sh#L293
-    if ! command -v /Library/Developer/CommandLineTools/usr/bin/git &>/dev/null; then
-        echo "Installing: xcode command line tools ..."
-        xcode-select --install
-    fi
-
     # https://brew.sh/
     if ! command -v /opt/homebrew/bin/brew &>/dev/null; then
         echo "Installing: homebrew ..."
