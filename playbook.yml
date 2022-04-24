@@ -43,6 +43,7 @@
         - nvim
         - starship
         - mas
+        - fzf
 
 - name: Install homebrew casks
   hosts: localhost
@@ -59,6 +60,9 @@
         - iterm2
         - spotify
         - font-cascadia-code-pl
+        - 1password
+        - parallels
+      ignore_errors: true
 
 - name: Install store applications
   hosts: localhost
@@ -68,7 +72,6 @@
       mas:
         id:
           - 904280696 # Things
-          - 413857545 # 1Password 7
           #- 497799835 # Xcode
         state: present
         upgrade_all: yes
@@ -166,6 +169,13 @@
         key: LoadPrefsFromCustomFolder
         type: int
         value: 2
+
+- name: Setup fzf
+  hosts: localhost
+
+  tasks:
+    - name: Ensure fzf key bindings and fuzzy completion are installed
+      shell: $(brew --prefix)/opt/fzf/install
 
 - name: Setup dock
   hosts: localhost
