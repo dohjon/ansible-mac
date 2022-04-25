@@ -44,6 +44,7 @@
         - starship
         - mas
         - fzf
+        - nvm
 
 - name: Install homebrew casks
   hosts: localhost
@@ -176,6 +177,16 @@
   tasks:
     - name: Ensure fzf key bindings and fuzzy completion are installed
       shell: $(brew --prefix)/opt/fzf/install
+
+- name: Setup nvm
+  hosts: localhost
+
+  tasks:
+    - name: Ensure ~/.nvm directory exists
+      file:
+        path: ~/.nvm
+        state: directory
+        mode: '0755'
 
 - name: Setup dock
   hosts: localhost

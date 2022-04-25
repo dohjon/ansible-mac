@@ -24,6 +24,8 @@ unsetopt CASE_GLOB
 
 export VISUAL="$(which code)"
 export EDITOR="$VISUAL"
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+export NVM_DIR="$HOME/.nvm"
 
 typeset -U path
 path=(
@@ -101,6 +103,14 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 #-------------------------------------------------------------------------------
 # SHOULD BE LOADED LAST
 #-------------------------------------------------------------------------------
+
+# https://github.com/junegunn/fzf#using-homebrew
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# https://formulae.brew.sh/formula/nvm
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # This loads nvm
+[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+
 # https://github.com/starship/starship#step-2-setup-your-shell-to-use-starship
 eval "$(starship init zsh)"
 
