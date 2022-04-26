@@ -63,6 +63,7 @@
         - font-cascadia-code-pl
         - 1password
         - parallels
+        - slack
       ignore_errors: true
 
 - name: Install store applications
@@ -226,6 +227,7 @@
         - file:///Applications/Spotify.app/
         - file:///Applications/Things3.app/
         - file:///Applications/1Password%207.app/
+        - file:///Applications/Slack.app/
 
     - name: Ensure dock is restarted
       shell: killall Dock
