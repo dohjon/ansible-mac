@@ -1,8 +1,21 @@
-<type>[optional scope]: <description>
+#<type>[optional scope]: <description>
 
-[optional body]
+#[optional body]
 
-[optional footer(s)]
+#[optional footer(s)]
+
+# ---
+
+# If applied, this commit will ... 
+# If applied, this commit will refactor subsystem X for readability
+# If applied, this commit will update getting started documentation
+# If applied, this commit will remove deprecated methods
+# If applied, this commit will release version 1.0.0
+# If applied, this commit will merge pull request #123 from user/branch
+
+# ---
+
+# feat: allow provided config object to extend other configs
 
 # feat: allow provided config object to extend other configs
 #
