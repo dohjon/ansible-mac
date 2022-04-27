@@ -64,7 +64,7 @@
         - 1password
         - parallels
         - slack
-      ignore_errors: true
+        - textexpander
 
 - name: Install store applications
   hosts: localhost
