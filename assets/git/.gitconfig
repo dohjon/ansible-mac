@@ -21,3 +21,7 @@
 	unstage = rm --cached -r
 	# Move all files (untracked as well) in the working area and the staging area to the stash
 	stash = stash --include-untracked
+	# Move * from the stash to the working area and the staging area
+	stap = stash apply --index
+	stls = stash list
+	stls = stash clear
