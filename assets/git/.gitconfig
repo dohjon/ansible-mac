@@ -14,3 +14,7 @@
 	st = status --short
 	br = branch --all --verbose
 	co = checkout -b
+	# Compare the working area with the staging area
+	d = diff
+	# Compare the staging area with the repository
+	d = diff --cached
