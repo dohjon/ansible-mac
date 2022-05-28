@@ -19,3 +19,5 @@
 	dsr = diff --cached
 	# Move file from the staging area to the working area (unstage)
 	unstage = rm --cached -r
+	# Move all files (untracked as well) in the working area and the staging area to the stash
+	stash = stash --include-untracked
