@@ -10,11 +10,12 @@
 [init]
 	defaultBranch = main
 [alias]
-	unstage = rm --cached -r
 	st = status --short
 	br = branch --all --verbose
 	co = checkout -b
 	# Compare the working area with the staging area
-	d = diff
+	dws = diff
 	# Compare the staging area with the repository
-	d = diff --cached
+	dsr = diff --cached
+	# Move file from the staging area to the working area (unstage)
+	unstage = rm --cached -r
