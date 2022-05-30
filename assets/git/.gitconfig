@@ -25,6 +25,8 @@
 	stap = stash apply --index
 	stls = stash list
 	stls = stash clear
+	
+	amend = commit --amend
 
 	# Show commits that would get added if b was merged into a 
 	#TODO = log <branch-a>..<branch-b> --oneline
