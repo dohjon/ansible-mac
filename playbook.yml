@@ -65,6 +65,7 @@
         - parallels
         - slack
         - textexpander
+        - grammarly
 
 - name: Install store applications
   hosts: localhost
