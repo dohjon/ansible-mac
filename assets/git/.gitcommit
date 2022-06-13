@@ -15,12 +15,22 @@
 
 # ---
 
-# feat: allow provided config object to extend other configs
+#<type=feat|fix|perf|build|ci|chore|docs|refactor|revert|style|test>[(optional scope)]: <description, imperative, present tense, lowercase, no dot at end>
 
-# feat: allow provided config object to extend other configs
-#
-# BREAKING CHANGE: `extends` key in config file is now used for extending other config files
+#[
+#  Optional body section.
 
-# feat!: send an email to the customer when a product is shipped
+#  Motivation for the change and contrast with previous behaviour.
 
-# feat(lang): add Polish language
+#  Can span multiple lines.
+#]
+
+#[BREAKING CHANGE: :warning: <description, imperative, present tense, lowercase, no dot at end>]
+
+#[Closes / Fixes #123, #456, #789]
+
+#[
+#  - Additional links and meta-information
+#  - Additional links and meta-information
+#  - Additional links and meta-information
+#]
