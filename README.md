@@ -14,6 +14,12 @@ chmod u+x ./install.sh && ./install.sh
 
 ## Helpers
 
+Only run task with <tag>
+```sh
+# ansible-playbook playbook.yml --tags <tag>
+ansible-playbook playbook.yml --tags git
+```
+
 Validate playbook 
 ```sh
 ansible-playbook --syntax-check <file>

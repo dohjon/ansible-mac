@@ -1,5 +1,4 @@
 ---
-
 - name: Verify we are in correct working directory when running playbook
   hosts: localhost
 
@@ -15,7 +14,7 @@
   tasks:
     - name: Ensure homebrew taps are installed
       homebrew_tap:
-        name:  "{{ item }}"
+        name: "{{ item }}"
         state: present
       with_items:
         - homebrew/cask-fonts
@@ -45,6 +44,7 @@
         - mas
         - fzf
         - nvm
+        - git-sizer
 
 - name: Install homebrew casks
   hosts: localhost
@@ -90,13 +90,13 @@
       file:
         path: ~/projects/gitlab
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Ensure ~/projects/github directory exists
       file:
         path: ~/projects/github
         state: directory
-        mode: '0755'
+        mode: "0755"
 
 - name: Setup zsh
   hosts: localhost
@@ -114,7 +114,8 @@
 
 - name: Setup git
   hosts: localhost
-
+  tags:
+    - git
   tasks:
     - name: Ensure .gitconfig copied to ~/.gitconfig
       copy:
@@ -148,7 +149,7 @@
       file:
         path: ~/.config/starship
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Ensure starship.toml copied to ~/.config/starship/starship.toml
       copy:
@@ -188,7 +189,7 @@
       file:
         path: ~/.nvm
         state: directory
-        mode: '0755'
+        mode: "0755"
 
 - name: Setup dock
   hosts: localhost
