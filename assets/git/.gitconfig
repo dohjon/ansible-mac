@@ -4,29 +4,13 @@
 [core]
 	autocrlf = input
 	editor = code --wait
+	# editor = vim
 	excludesfile = ~/.gitignore_global
 [commit]
 	template = ~/.gitcommit
 [init]
 	defaultBranch = main
+[fetch]
+	prune = true
 [alias]
-	st = status --short
-	br = branch --all --verbose
-	co = checkout -b
-	# Compare the working area with the staging area
-	dws = diff
-	# Compare the staging area with the repository
-	dsr = diff --cached
-	# Move file from the staging area to the working area (unstage)
-	unstage = rm --cached -r
-	# Move all files (untracked as well) in the working area and the staging area to the stash
-	stash = stash --include-untracked
-	# Move * from the stash to the working area and the staging area
-	stap = stash apply --index
-	stls = stash list
-	stls = stash clear
-	
-	amend = commit --amend
-
-	# Show commits that would get added if b was merged into a 
-	#TODO = log <branch-a>..<branch-b> --oneline
+	# See alias in .zshrc

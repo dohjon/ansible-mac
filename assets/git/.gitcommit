@@ -4,16 +4,16 @@
 
 #[optional footer(s)]
 
-# ---
-
+# Description => 
 # If applied, this commit will ... 
-# If applied, this commit will refactor subsystem X for readability
-# If applied, this commit will update getting started documentation
 # If applied, this commit will remove deprecated methods
 # If applied, this commit will release version 1.0.0
-# If applied, this commit will merge pull request #123 from user/branch
 
-# ---
+# fix: prevent racing of requests  (description)
+
+# Explain WHAT/WHY changed
+
+# Closes: XYZ-123        (optional footer)
 
 #<type=feat|fix|perf|build|ci|chore|docs|refactor|revert|style|test>[(optional scope)]: <description, imperative, present tense, lowercase, no dot at end>
 
@@ -27,10 +27,4 @@
 
 #[BREAKING CHANGE: :warning: <description, imperative, present tense, lowercase, no dot at end>]
 
-#[Closes / Fixes #123, #456, #789]
 
-#[
-#  - Additional links and meta-information
-#  - Additional links and meta-information
-#  - Additional links and meta-information
-#]
