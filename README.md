@@ -50,7 +50,7 @@ Create new SSH key
 ssh-keygen -t ed25519 -C "email@domain or comment"
 ```
 
-Configure ssh/config to use/point to new SSH key
+Copy ssh/config.template to ~/.ssh/config and configure to use/point to new SSH key
 ```sh
 IdentityFile ~/.ssh/<REDACTED>
 ```
@@ -67,6 +67,7 @@ ssh-add --apple-use-keychain ~/.ssh/<REDACTED>
 
 Test which public key is used (troubleshooting) 
 ```sh
+# use "ssh -vT" for verbose output
 ssh -T git@github.com
 ssh -T git@github-work.com
 # List fingerprints of currently loaded keys
