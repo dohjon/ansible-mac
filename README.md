@@ -17,7 +17,7 @@ chmod u+x ./install.sh && ./install.sh
 Only run task with <tag>
 ```sh
 # ansible-playbook playbook.yml --tags <tag>
-ansible-playbook playbook.yml --tags git
+ansible-playbook playbook.yml --tags zsh,git
 ```
 
 Validate playbook 
