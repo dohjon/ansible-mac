@@ -100,7 +100,8 @@
 
 - name: Setup zsh
   hosts: localhost
-
+  tags: 
+    - zsh
   tasks:
     - name: Ensure .zprofile copied to ~/.zprofile
       copy:
