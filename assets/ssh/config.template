@@ -1,0 +1,21 @@
+Host github.com
+  HostName github.com
+  User git
+  IgnoreUnknown AddKeysToAgent,UseKeyChain #ignore mac only commands on other OS
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile <REDACTED>
+
+Host github-work.com
+  HostName github.com
+  User git
+  IgnoreUnknown AddKeysToAgent,UseKeyChain #ignore mac only commands on other OS
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile <REDACTED>
+
+Host *
+  IgnoreUnknown AddKeysToAgent,UseKeyChain #ignore mac only commands on other OS
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile <REDACTED>
