@@ -66,6 +66,8 @@
         - slack
         - textexpander
         - grammarly
+        - karabiner-elements
+        - alfred
 
 - name: Install store applications
   hosts: localhost
@@ -100,7 +102,7 @@
 
 - name: Setup zsh
   hosts: localhost
-  tags: 
+  tags:
     - zsh
   tasks:
     - name: Ensure .zprofile copied to ~/.zprofile
@@ -229,7 +231,7 @@
         - file:///Applications/Google%20Chrome.app/
         - file:///Applications/Spotify.app/
         - file:///Applications/Things3.app/
-        - file:///Applications/1Password%207.app/
+        - file:///Applications/1Password.app/
         - file:///Applications/Slack.app/
 
     - name: Ensure dock is restarted
