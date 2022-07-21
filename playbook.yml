@@ -216,6 +216,26 @@
         state: directory
         mode: "0755"
 
+- name: Setup vim
+  hosts: localhost
+
+  tasks:
+    - name: Enable key-repeating for vscode
+      shell: defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+    - name: Enable key-repeating for vscode insider
+      shell: defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false
+
+    - name: Enable key-repeating for vscode codium
+      shell: defaults write com.visualstudio.code.oss ApplePressAndHoldEnabled -bool false
+
+    - name: Enable key-repeating for vscode exploration
+      shell: defaults write com.microsoft.VSCodeExploration ApplePressAndHoldEnabled -bool false
+
+    - name: Enable key-repeating for all programs
+      shell: defaults delete -g ApplePressAndHoldEnabled
+      ignore_errors: true
+
 - name: Setup dock
   hosts: localhost
 
