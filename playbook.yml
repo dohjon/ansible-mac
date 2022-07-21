@@ -125,6 +125,11 @@
         src: ./assets/git/.gitconfig
         dest: ~/.gitconfig
 
+    - name: Ensure .gitconfig-work copied to ~/.gitconfig-work
+      copy:
+        src: ./assets/git/.gitconfig-work
+        dest: ~/.gitconfig-work
+
     - name: Ensure .gitcommit copied to ~/.gitcommit
       copy:
         src: ./assets/git/.gitcommit

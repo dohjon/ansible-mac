@@ -14,3 +14,5 @@
 	prune = true
 [alias]
 	# See alias in .zshrc
+[includeIf "gitdir/i:~/dev/github/phem-org/"]
+	path = ~/.gitconfig-work
