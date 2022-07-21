@@ -164,6 +164,23 @@
         src: ./assets/starship/starship.toml
         dest: ~/.config/starship/starship.toml
 
+
+
+- name: Setup karabiner
+  hosts: localhost
+
+  tasks:
+    - name: Ensure ~/.config/karabiner directory exists
+      file:
+        path: ~/.config/karabiner
+        state: directory
+        mode: "0755"
+
+    - name: Ensure karabiner.json copied to ~/.config/karabiner/karabiner.json
+      copy:
+        src: ./assets/karabiner/karabiner.json
+        dest: ~/.config/karabiner/karabiner.json
+
 - name: Setup iterm2
   hosts: localhost
 
