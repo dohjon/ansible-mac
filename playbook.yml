@@ -68,6 +68,10 @@
         - grammarly
         - karabiner-elements
         - alfred
+        - microsoft-teams
+        - microsoft-outlook
+        - docker
+        - remarkable
 
 - name: Install store applications
   hosts: localhost
@@ -275,6 +279,9 @@
         - file:///Applications/Things3.app/
         - file:///Applications/1Password.app/
         - file:///Applications/Slack.app/
+        - file:///Applications/Microsoft%20Outlook.app/
+        - file:///Applications/Microsoft%20Teams.app/
+        - file:///Applications/Docker.app/
 
     - name: Ensure dock is restarted
       shell: killall Dock
